@@ -1,0 +1,10 @@
+<resources>
+    <!--    Use the same names as bottom_nav, at the beginning of this file, for ALT text -->
+    <string name="action_part_1">Open Part1 Activity</string>
+    <string name="action_part_2">Open Part2 Activity</string>
+    <string name="action_part_3">Open Part3 Activity</string>
+    <string name="accessibility_tab_format_selected">Tab: %s</string>
+    <string name="accessibility_tab_format">Tab %s</string>
+    <string name="accessible_tab">Contains %d tabs; number %d is selected </string>
+    <!--    <string name="accessible_tab_unchecked">Contains %d tabs; none are selected</string>-->
+</resources>

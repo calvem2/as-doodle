@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_part_1"
+        android:contentDescription="First Screen (Activity 1)"
+        android:enabled="true"
+        android:icon="@drawable/ic_1"
+        android:title="" />
+    <item
+        android:id="@+id/action_part_2"
+        android:contentDescription="Second Screen (Activity 1B)"
+        android:enabled="true"
+        android:icon="@drawable/ic_2"
+        android:title="" />
+    <item
+        android:id="@+id/action_part_3"
+        android:contentDescription="Third Screen (Activity 2)"
+        android:enabled="true"
+        android:icon="@drawable/ic_3"
+        android:title="" />
+</menu>
