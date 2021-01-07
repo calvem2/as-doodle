@@ -28,6 +28,11 @@ public class CircleView extends DrawView {
          * Note that CircleView is instantiated using dp but initFromParentCoordsPX expects px
          * to properly set up the view
          */
+
+        initFromParentCoordsPX(DimHelp.DP2PX(parentX - radius - getThickness(), context),
+                DimHelp.DP2PX(parentY - radius - getThickness(), context),
+                DimHelp.DP2PX(radius * 2 + getThickness(), context),
+                DimHelp.DP2PX(radius * 2 + getThickness() , context));
     }
 
     /**
@@ -45,5 +50,9 @@ public class CircleView extends DrawView {
          *
          * Remember: onDraw should use px
          */
+        float radius = (this.getWidth() - getThickness()) / 2;
+        canvas.drawCircle(radius + getThickness() / 2, radius + getThickness() / 2, radius, getBrush());
+
+
     }
 }

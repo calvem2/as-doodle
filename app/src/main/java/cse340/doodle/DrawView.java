@@ -105,7 +105,8 @@ public class DrawView extends ImageView
         // Your code should position this view so that all drawing can
         // start at (0,0) in child coordinates, and will be displayed
         // at (parentX, parentY) in parent coordinates (specified in pixels)
-        
+        this.setX(parentX);
+        this.setY(parentY);
     }
 
     /**
