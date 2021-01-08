@@ -28,11 +28,12 @@ public class CircleView extends DrawView {
          * Note that CircleView is instantiated using dp but initFromParentCoordsPX expects px
          * to properly set up the view
          */
-
-        initFromParentCoordsPX(DimHelp.DP2PX(parentX - radius - getThickness(), context),
-                DimHelp.DP2PX(parentY - radius - getThickness(), context),
-                DimHelp.DP2PX(radius * 2 + getThickness(), context),
-                DimHelp.DP2PX(radius * 2 + getThickness() , context));
+        float halfStroke = (float) (getThickness() / 2.0);
+        System.out.println("pxRadius: " + DimHelp.DP2PX(radius, context));
+        initFromParentCoordsPX(DimHelp.DP2PX(parentX - radius, context) - halfStroke,
+                DimHelp.DP2PX(parentY - radius, context)  - halfStroke,
+                DimHelp.DP2PX(radius + radius, context) + getThickness(),
+                DimHelp.DP2PX(radius + radius, context) + getThickness());
     }
 
     /**
@@ -50,9 +51,9 @@ public class CircleView extends DrawView {
          *
          * Remember: onDraw should use px
          */
-        float radius = (this.getWidth() - getThickness()) / 2;
-        canvas.drawCircle(radius + getThickness() / 2, radius + getThickness() / 2, radius, getBrush());
-
-
+        float radius = (float) ((this.getWidth() - getThickness()) / 2.0);
+        float halfStroke = (float) (getThickness() / 2.0);
+        System.out.println("width: " + this.getWidth() + ", radius: " + radius + ", halfstroke: " + halfStroke);
+        canvas.drawCircle(radius + halfStroke, radius + halfStroke, radius, getBrush());
     }
 }

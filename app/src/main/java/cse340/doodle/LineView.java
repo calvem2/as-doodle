@@ -45,14 +45,44 @@ public class LineView extends DrawView {
          * TODO calculate the left, right, top and bottom of the line's bounding box in parent coordinates
          * You should be able to do this with max and min.
          */
+        float left, top;
+        left = parentStartX == parentEndX ? parentStartX - (float) (getThickness() / 2.0) : Math.min(parentStartX, parentEndX);
+        top = parentStartY == parentEndY ? parentStartY - (float) (getThickness() / 2.0) : Math.min(parentStartY, parentEndY);
 
         /*
          * TODO calculate the width and height of the line's bounding box
          */
+        float height = parentStartY == parentEndY ? getThickness() : Math.abs(parentStartY - parentEndY);
+        float width = parentStartX == parentEndX ? getThickness() : Math.abs(parentStartX - parentEndX);
 
         /*
          * TODO calculate what quadrant the line starts and ends in
          */
+        if (parentStartX == parentEndX) {
+            // vertical line
+            mStart = mEnd = parentStartY < parentEndY ? Quadrant.VERTICALTOPBOTTOM : Quadrant.VERTICALBOTTOMTOP;
+        } else if (parentStartY == parentEndY) {
+            // horizontal line
+            mStart = mEnd = parentStartX < parentEndX ? Quadrant.HORIZONTALLEFTRIGHT : Quadrant.HORIZONTALRIGHTLEFT;
+        } else if (parentStartX < parentEndX) {
+            // non horizontal/vertical lines from left to right
+            if (parentStartY < parentEndY) {
+                mStart = Quadrant.TOPLEFT;
+                mEnd = Quadrant.BOTTOMRIGHT;
+            } else {
+                mStart = Quadrant.BOTTOMLEFT;
+                mEnd = Quadrant.TOPRIGHT;
+            }
+        } else {
+            // non horizontal/vertical lines from right to left
+            if (parentStartY < parentEndY) {
+                mStart = Quadrant.TOPRIGHT;
+                mEnd = Quadrant.BOTTOMLEFT;
+            } else {
+                mStart = Quadrant.BOTTOMRIGHT;
+                mEnd = Quadrant.TOPLEFT;
+            }
+        }
 
         /*
          * TODO horizontal and vertical lines require special logic in drawing.
@@ -67,6 +97,10 @@ public class LineView extends DrawView {
          * TODO initialize bounding box from parent coordinates
          * use initializeFromParent
          */
+        System.out.println(left + ", " + top + ", " + width + ", " + height);
+        System.out.println(parentStartX + ", " + parentStartY + ", " + width + ", " + height);
+        initFromParentCoordsPX(left, top, width, height);
+
     }
 
     /**
@@ -86,6 +120,31 @@ public class LineView extends DrawView {
          *
          * Remember: onDraw should use px
          */
+        float width, height, wCenter, hCenter;
+        width = this.getWidth();
+        height = this.getHeight();
+        wCenter = (float) (width / 2.0);    // center of box width
+        hCenter = (float) (height / 2.0);   // center of height width
+        ;
+        System.out.println(width + ", " + height + ", " + wCenter + ", " + hCenter);
+        // todo: use mEnd?
+        if (mStart == Quadrant.VERTICALTOPBOTTOM) {
+            canvas.drawLine(wCenter, 0, wCenter, height, getBrush());
+        } else if (mStart == Quadrant.VERTICALBOTTOMTOP) {
+            canvas.drawLine(wCenter, height, wCenter, 0, getBrush());
+        } else if (mStart == Quadrant.HORIZONTALLEFTRIGHT) {
+            canvas.drawLine(0, hCenter, width, hCenter, getBrush());
+        } else if (mStart == Quadrant.HORIZONTALRIGHTLEFT) {
+            canvas.drawLine(width, hCenter, 0, hCenter, getBrush());
+        } else if (mStart == Quadrant.TOPLEFT) {
+            canvas.drawLine(0, 0, width, height, getBrush());
+        } else if (mStart == Quadrant.TOPRIGHT) {
+            canvas.drawLine(width, 0, 0, height, getBrush());
+        } else if (mStart == Quadrant.BOTTOMLEFT) {
+            canvas.drawLine(0, height, width, 0, getBrush());
+        } else {
+            canvas.drawLine(width, height, 0, 0, getBrush());
+        }
     }
 }
 
