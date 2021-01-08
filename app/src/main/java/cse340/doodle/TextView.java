@@ -17,7 +17,6 @@ public class TextView extends DrawView {
 
     /** The text to show */
     private String mText;
-    private float baseline;
 
     public String getText() {
         return mText;
@@ -53,18 +52,17 @@ public class TextView extends DrawView {
         mText = text;
         float top, width, height;
         // Set font size
-        mBrush.setTextSize(DimHelp.DP2PX(fontSize, context));
+        getBrush().setTextSize(DimHelp.DP2PX(fontSize, context));
 
         // Get font metrics
-        Paint.FontMetrics metrics = mBrush.getFontMetrics();
+        Paint.FontMetrics metrics = getBrush().getFontMetrics();
 
         // Find bounding box
-        baseline = -metrics.top;
         top = DimHelp.DP2PX(y, context) + metrics.top;
         height = metrics.bottom - metrics.top;
-        width = mBrush.measureText(mText);
+        width = getBrush().measureText(getText());
 
-        System.out.println("hiii" + metrics.top + " " + metrics.bottom + " " + DimHelp.DP2PX(y, context) + " " + width + " " + height);
+        System.out.println(getText() + ": " + metrics.top + " " + metrics.bottom + " " + DimHelp.DP2PX(y, context) + " " + width + " " + height);
         System.out.println("brush size: " + mBrush.getTextSize() + " font size: " + DimHelp.DP2PX(fontSize, context));
         initFromParentCoordsPX(DimHelp.DP2PX(x, context), top, width, height);
     }
@@ -78,6 +76,7 @@ public class TextView extends DrawView {
         // TODO draw your text
         //  1) calculate the position of the baseline in y
         //  2) call drawText with the correct x and y (baseline)
+        float baseline = -getBrush().getFontMetrics().top;
         canvas.drawText(getText(), 0, baseline, getBrush());
     }
 }
