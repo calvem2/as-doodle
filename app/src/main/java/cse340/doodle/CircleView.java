@@ -7,6 +7,10 @@ import android.graphics.Paint;
 import cse340.doodle.ColorUtils;
 import cse340.doodle.DimHelp;
 
+// Documentation used
+// View: https://developer.android.com/reference/android/view/View
+// Canvas: https://developer.android.com/reference/android/graphics/Canvas
+// Paint: https://developer.android.com/reference/android/graphics/Paint
 public class CircleView extends DrawView {
 
     /**
@@ -29,9 +33,8 @@ public class CircleView extends DrawView {
          * to properly set up the view
          */
         float halfStroke = (float) (getThickness() / 2.0);
-        System.out.println("pxRadius: " + DimHelp.DP2PX(radius, context));
         initFromParentCoordsPX(DimHelp.DP2PX(parentX - radius, context) - halfStroke,
-                DimHelp.DP2PX(parentY - radius, context)  - halfStroke,
+                DimHelp.DP2PX(parentY - radius, context) - halfStroke,
                 DimHelp.DP2PX(radius + radius, context) + getThickness(),
                 DimHelp.DP2PX(radius + radius, context) + getThickness());
     }
@@ -53,7 +56,6 @@ public class CircleView extends DrawView {
          */
         float radius = (float) ((this.getWidth() - getThickness()) / 2.0);
         float halfStroke = (float) (getThickness() / 2.0);
-        System.out.println("width: " + this.getWidth() + ", radius: " + radius + ", halfstroke: " + halfStroke);
         canvas.drawCircle(radius + halfStroke, radius + halfStroke, radius, getBrush());
     }
 }

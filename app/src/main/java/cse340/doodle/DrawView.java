@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import cse340.doodle.DimHelp;
 import cse340.doodle.ColorUtils;
 
+// Documentation used
+// View: https://developer.android.com/reference/android/view/View
 @SuppressLint("AppCompatCustomView")
 public class DrawView extends ImageView
 {

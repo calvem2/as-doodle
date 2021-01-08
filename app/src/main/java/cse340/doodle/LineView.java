@@ -8,6 +8,11 @@ import cse340.doodle.ColorUtils;
 import cse340.doodle.DimHelp;
 import cse340.doodle.Quadrant;
 
+// Documentation used
+// View: https://developer.android.com/reference/android/view/View
+// Canvas: https://developer.android.com/reference/android/graphics/Canvas
+// Paint: https://developer.android.com/reference/android/graphics/Paint
+
 public class LineView extends DrawView {
 
     /** The location of the start and end of the line in this box */
@@ -58,14 +63,13 @@ public class LineView extends DrawView {
         /*
          * TODO calculate what quadrant the line starts and ends in
          */
+        // vertical line
         if (parentStartX == parentEndX) {
-            // vertical line
             mStart = mEnd = parentStartY < parentEndY ? Quadrant.VERTICALTOPBOTTOM : Quadrant.VERTICALBOTTOMTOP;
+        // horizontal line
         } else if (parentStartY == parentEndY) {
-            // horizontal line
             mStart = mEnd = parentStartX < parentEndX ? Quadrant.HORIZONTALLEFTRIGHT : Quadrant.HORIZONTALRIGHTLEFT;
         } else if (parentStartX < parentEndX) {
-            // non horizontal/vertical lines from left to right
             if (parentStartY < parentEndY) {
                 mStart = Quadrant.TOPLEFT;
                 mEnd = Quadrant.BOTTOMRIGHT;
@@ -74,7 +78,6 @@ public class LineView extends DrawView {
                 mEnd = Quadrant.TOPRIGHT;
             }
         } else {
-            // non horizontal/vertical lines from right to left
             if (parentStartY < parentEndY) {
                 mStart = Quadrant.TOPRIGHT;
                 mEnd = Quadrant.BOTTOMLEFT;
@@ -97,8 +100,6 @@ public class LineView extends DrawView {
          * TODO initialize bounding box from parent coordinates
          * use initializeFromParent
          */
-        System.out.println(left + ", " + top + ", " + width + ", " + height);
-        System.out.println(parentStartX + ", " + parentStartY + ", " + width + ", " + height);
         initFromParentCoordsPX(left, top, width, height);
 
     }
@@ -125,9 +126,6 @@ public class LineView extends DrawView {
         height = this.getHeight();
         wCenter = (float) (width / 2.0);    // center of box width
         hCenter = (float) (height / 2.0);   // center of height width
-        ;
-        System.out.println(width + ", " + height + ", " + wCenter + ", " + hCenter);
-        // todo: use mEnd?
         if (mStart == Quadrant.VERTICALTOPBOTTOM) {
             canvas.drawLine(wCenter, 0, wCenter, height, getBrush());
         } else if (mStart == Quadrant.VERTICALBOTTOMTOP) {
