@@ -12,6 +12,7 @@ import cse340.doodle.DimHelp;
 // Canvas: https://developer.android.com/reference/android/graphics/Canvas
 // Paint: https://developer.android.com/reference/android/graphics/Paint
 // FontMetrics: https://developer.android.com/reference/android/graphics/Paint.FontMetrics
+// Android text basics: https://proandroiddev.com/android-and-typography-101-5f06722dd611
 
 public class TextView extends DrawView {
 
@@ -62,8 +63,6 @@ public class TextView extends DrawView {
         height = metrics.bottom - metrics.top;
         width = getBrush().measureText(getText());
 
-        System.out.println(getText() + ": " + metrics.top + " " + metrics.bottom + " " + DimHelp.DP2PX(y, context) + " " + width + " " + height);
-        System.out.println("brush size: " + mBrush.getTextSize() + " font size: " + DimHelp.DP2PX(fontSize, context));
         initFromParentCoordsPX(DimHelp.DP2PX(x, context), top, width, height);
     }
 

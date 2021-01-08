@@ -1,5 +1,6 @@
 package cse340.doodle;
 
+import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -8,6 +9,9 @@ import android.text.TextPaint;
 import android.util.Log;
 import android.widget.FrameLayout;
 
+// Documentation used
+// ObjectAnimator: https://developer.android.com/reference/android/animation/ObjectAnimator
+// Animation guide: https://shubham08gupta.medium.com/a-beginners-guide-to-implement-android-animations-part-1-2-part-series-b5fce1fc85
 public class Part1Activity extends AbstractMainActivity {
 
     /**
@@ -121,6 +125,8 @@ public class Part1Activity extends AbstractMainActivity {
 
         // TODO: Do your animation with the UW text view here! It's stored in the "uw" variable.
         float right = DimHelp.DP2PX(PHONE_DIMS.x - PHONE_DIMS.x/4, this);
-
+        ObjectAnimator uwAnimator = ObjectAnimator.ofFloat(uw, "translationX", uw.getX(), right);
+        uwAnimator.setDuration(1000);
+        uwAnimator.start();
     }
 }
