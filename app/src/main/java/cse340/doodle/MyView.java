@@ -14,7 +14,9 @@ import cse340.doodle.DimHelp;
 // pointF: https://developer.android.com/reference/android/graphics/PointF
 // rotating points: https://math.stackexchange.com/questions/270194/how-to-find-the-vertices-angle-after-rotation#:~:text=When%20a%20point%20(x%2Cy,%2Bycos(%CE%B8).
 
-// Convex lens shape
+/**
+ * Oval that's rotated by some number of degrees around a point.
+ */
 public class MyView extends DrawView {
 
     /** The angle by which to rotate the oval */
@@ -26,14 +28,16 @@ public class MyView extends DrawView {
     /**
      * Constructor of MyView (oval)
      * @param context The Context the view is running in, through which it can access the current theme, resources, etc.
-     * @param x Center x position in parent coordinates (in dp)
-     * @param y Center y position in parent coordinates (in dp)
+     * @param cx Center x position in parent coordinates (in dp)
+     * @param cy Center y position in parent coordinates (in dp)
      * @param width The width of the oval (in dp)
      * @param height The height of the oval (in dp)
-     * @param angle The angle to rotate the oval by
+     * @param angle The angle to rotate the oval by (in degrees)
+     * @param x x position around which to rotate (in dp)
+     * @param y y position around which to rotate (in dp)
      * @param brush The Paint object used to style the oval
      */
-    public MyView(Context context, float x, float y, float width, float height, float angle, Paint brush) {
+    public MyView(Context context, float cx, float cy, float width, float height, float angle, float x, float y, Paint brush) {
         super(context, brush);
         setContentDescription(ColorUtils.GetColorName(brush.getColor()) + " " + width + "x" + height +
                 " oval centered at (" + x + ", " + y + ") rotated by " + angle + "degrees");
@@ -43,16 +47,16 @@ public class MyView extends DrawView {
         this.angle = angle;
 
         // find bounding rectangle of pre-rotated oval
-        float left = (float) (x - width / 2.0);
-        float top = (float) (y - height / 2.0);
-        float right = (float) (x + width / 2.0);
-        float bottom = (float) (y + height / 2.0);
+        float left = (float) (cx - width / 2.0);
+        float top = (float) (cy - height / 2.0);
+        float right = (float) (cx + width / 2.0);
+        float bottom = (float) (cy + height / 2.0);
 
         // rotate rectangle and find smallest bounding box
-        PointF topLeft = rotatePoint(x, bottom, angle, left, top);
-        PointF bottomRight = rotatePoint(x, bottom, angle, right, bottom);
-        PointF topRight = rotatePoint(x, bottom, angle, right, top);
-        PointF bottomLeft = rotatePoint(x, bottom, angle, left, bottom);
+        PointF topLeft = rotatePoint(x, y, angle, left, top);
+        PointF bottomRight = rotatePoint(x, y, angle, right, bottom);
+        PointF topRight = rotatePoint(x, y, angle, right, top);
+        PointF bottomLeft = rotatePoint(x, y, angle, left, bottom);
         left = Math.min(Math.min(topLeft.x, topRight.x), Math.min(bottomLeft.x, bottomRight.x));
         right = Math.max(Math.max(topLeft.x, topRight.x), Math.max(bottomLeft.x, bottomRight.x));
         top = Math.min(Math.min(topLeft.y, topRight.y), Math.min(bottomLeft.y, bottomRight.y));
