@@ -110,17 +110,11 @@ public class Part2Activity extends AbstractMainActivity {
         ///////////////////////////////////   BACKGROUND    ////////////////////////////////////////
         brush.setStrokeWidth(DimHelp.DP2PX(PHONE_DIMS.x, this));
         brush.setColor(Color.LTGRAY);
-        lineView = new LineView(this, PHONE_DIMS.x / 2, 0,
+        LineView fog = new LineView(this, PHONE_DIMS.x / 2, 0,
                 PHONE_DIMS.x / 2, PHONE_DIMS.y, brush);
-        doodleView.addView(lineView);
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(lineView, "alpha",  1f, 0f);
-        fadeOut.setDuration(1000);
-        fadeOut.setStartDelay(1000);
-        fadeOut.start();
+        doodleView.addView(fog);
 
-        /////////////////////////////////// FLOWERS /////////////////////////////////////////////
-
-        //////// TOP DIRT
+        /////////////////////////////////// TOP DIRT /////////////////////////////////////////////
         int brown = Color.rgb(165, 104, 42);
         brush.setStrokeWidth(100);
         brush.setColor(brown);
@@ -128,6 +122,7 @@ public class Part2Activity extends AbstractMainActivity {
                 PHONE_DIMS.x, PHONE_DIMS.y - 100, brush);
         doodleView.addView(lineView);
 
+        /////////////////////////////////// FLOWERS /////////////////////////////////////////////
         // flower brush
         Paint flowers = new Paint();
         flowers.setColor(brown);
@@ -135,16 +130,18 @@ public class Part2Activity extends AbstractMainActivity {
         flowers.setStyle(Paint.Style.STROKE);
         int green = Color.rgb(36, 161, 89);
 
-        float translationOffset = 250;
+        // flower format
+        float translationOffset = 250;                                  // translation offset for animation
         float petalHeight = 50;
         float petalWidth = 20;
-        float stemOffset = 250;
-        float cx = PHONE_DIMS.x / 2;
-        float cy = (PHONE_DIMS.y - stemOffset / 2 - petalHeight / 2) + translationOffset;
-        float rotationY = cy + (float) (petalHeight / 2.0);
+        float stemOffset = 250;                                         // stem height
+        float cx = PHONE_DIMS.x / 2;                                    // center of ovals
+        float cy = (PHONE_DIMS.y - stemOffset / 2 - petalHeight / 2)
+                + translationOffset;
+        float rotationY = cy + (float) (petalHeight / 2.0);             // y value to rotate around
         List<DrawView> flowerParts = new ArrayList<>();
 
-        //////// FLOWER 1
+        //////// FLOWER ONE
         // stem 1
         flowers.setColor(green);
         lineView = new LineView(this, PHONE_DIMS.x / 2, PHONE_DIMS.y - 50 + translationOffset,
@@ -195,7 +192,7 @@ public class Part2Activity extends AbstractMainActivity {
             flowerAnimations.get(i).setDuration(4000);
         }
 
-        //////// FLOWER 2
+        //////// FLOWER TWO
         // stem 2
         stemOffset = 200;
         flowerParts.clear();
@@ -253,7 +250,7 @@ public class Part2Activity extends AbstractMainActivity {
             flowerAnimations.get(flowerAnimations.size() - 1).setDuration(4000);
         }
 
-        //////// FLOWER 3
+        //////// FLOWER THREE
         // stem 3
         stemOffset = 225;
         flowers.setColor(green);
@@ -312,32 +309,53 @@ public class Part2Activity extends AbstractMainActivity {
             flowerAnimations.get(flowerAnimations.size() - 1).setDuration(4000);
         }
 
-        // bottom dirt
+        /////////////////////////////////// BOTTOM DIRT ////////////////////////////////////////////
         lineView = new LineView(this, 0, PHONE_DIMS.y - 50,
                 PHONE_DIMS.x, PHONE_DIMS.y - 50, brush);
         doodleView.addView(lineView);
 
         /////////////////////////////////// BEE /////////////////////////////////////////////
         float beeY = PHONE_DIMS.y / 2;
+        float pathWidth = DimHelp.DP2PX(Math.min(PHONE_DIMS.x, PHONE_DIMS.y) / 5, this);
         DrawView drawView = new DrawView(this, "bee", "cartoon bee", this.getPackageName(), -100, beeY, 100);
         Path beePath = new Path();
         beePath.moveTo(-150, beeY);
-        beePath.rQuadTo(100, 50, 150, 0);
-        beePath.rQuadTo(100, -50, 150, 0);
-        beePath.rQuadTo(100, 50, 150, 0);
-        beePath.rQuadTo(100, -50, 150, 0);
+        beePath.rQuadTo(pathWidth / 2, 50, pathWidth, 0);
+        beePath.rQuadTo(pathWidth / 2, -50, pathWidth, 0);
+        beePath.rQuadTo(pathWidth / 2, 50, pathWidth, 0);
+        beePath.rQuadTo(pathWidth / 2, -50, pathWidth, 0);
         doodleView.addView(drawView);
 
+        TextPaint textPaint = new TextPaint();
+        textPaint.setColor(Color.BLACK);
+        TextView textView = new TextView(this, (float) (Math.min(PHONE_DIMS.x, PHONE_DIMS.y) * 4.0 / 5),
+                DimHelp.PX2DP(beeY + 50, this), 10, "bee happy :)", textPaint);
+        textView.setAlpha(0f);
+        doodleView.addView(textView);
+
         /////////////////////////////////// ANIMATIONS /////////////////////////////////////////////
+        // fade out gray overlay
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(fog, "alpha",  1f, 0f);
+        fadeOut.setDuration(1000);
+        fadeOut.setStartDelay(1000);
+        fadeOut.start();
+
         // start flower animations
         for (int i = 0; i < flowerAnimations.size(); i++) {
             flowerAnimations.get(i).setStartDelay(1000);
             flowerAnimations.get(i).start();
         }
 
+        // bee animation
         ObjectAnimator beeAnimation = ObjectAnimator.ofFloat(drawView, DrawView.X, DrawView.Y, beePath);
         beeAnimation.setStartDelay(4000);
         beeAnimation.setDuration(3000);
         beeAnimation.start();
+
+        // text animation
+        ObjectAnimator textAnimation =  ObjectAnimator.ofFloat(textView, "alpha",  0f, 1f);
+        textAnimation.setStartDelay(7000);
+        textAnimation.setDuration(100);
+        textAnimation.start();
     }
 }
