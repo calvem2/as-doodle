@@ -116,7 +116,7 @@ public class Part2Activity extends AbstractMainActivity {
 
         /////////////////////////////////// TOP DIRT /////////////////////////////////////////////
         int brown = Color.rgb(165, 104, 42);
-        brush.setStrokeWidth(100);
+        brush.setStrokeWidth(DimHelp.DP2PX(100, this));
         brush.setColor(brown);
         lineView = new LineView(this, 0, PHONE_DIMS.y - 100,
                 PHONE_DIMS.x, PHONE_DIMS.y - 100, brush);
