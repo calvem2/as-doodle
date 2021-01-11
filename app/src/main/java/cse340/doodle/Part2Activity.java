@@ -3,8 +3,11 @@ package cse340.doodle;
 import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextPaint;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
@@ -15,6 +18,8 @@ import java.util.List;
 // ObjectAnimator: https://developer.android.com/reference/android/animation/ObjectAnimator
 // fade in: https://stackoverflow.com/questions/6796139/fade-in-fade-out-android-animation-in-java/41306130
 // View: https://developer.android.com/reference/android/view/View
+// Path: https://developer.android.com/reference/android/graphics/Path
+// drawing a wave with Path https://stackoverflow.com/questions/32986371/how-to-draw-sine-wave-curve-using-sin-function-and-canvas-in-android
 public class Part2Activity extends AbstractMainActivity {
 
     /**
@@ -42,7 +47,7 @@ public class Part2Activity extends AbstractMainActivity {
         ///////////////////////////////////   SUN    /////////////////////////////////////////////
         // rays format
         float widthPX = DimHelp.DP2PX(PHONE_DIMS.x, this);
-        float radius = (float) (PHONE_DIMS.x / 3.0);
+        float radius = Math.min((float) (PHONE_DIMS.x / 3.0), (float) (PHONE_DIMS.y / 3.0));
         float quarterOffset = (float) (PHONE_DIMS.x / 4.0);
         float xRayOffset = 60;
         float yRayOffset = -100;
@@ -109,7 +114,7 @@ public class Part2Activity extends AbstractMainActivity {
                 PHONE_DIMS.x / 2, PHONE_DIMS.y, brush);
         doodleView.addView(lineView);
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(lineView, "alpha",  1f, 0f);
-        fadeOut.setDuration(2000);
+        fadeOut.setDuration(1000);
         fadeOut.setStartDelay(1000);
         fadeOut.start();
 
@@ -312,11 +317,27 @@ public class Part2Activity extends AbstractMainActivity {
                 PHONE_DIMS.x, PHONE_DIMS.y - 50, brush);
         doodleView.addView(lineView);
 
+        /////////////////////////////////// BEE /////////////////////////////////////////////
+        float beeY = PHONE_DIMS.y / 2;
+        DrawView drawView = new DrawView(this, "bee", "cartoon bee", this.getPackageName(), -100, beeY, 100);
+        Path beePath = new Path();
+        beePath.moveTo(-150, beeY);
+        beePath.rQuadTo(100, 50, 150, 0);
+        beePath.rQuadTo(100, -50, 150, 0);
+        beePath.rQuadTo(100, 50, 150, 0);
+        beePath.rQuadTo(100, -50, 150, 0);
+        doodleView.addView(drawView);
+
         /////////////////////////////////// ANIMATIONS /////////////////////////////////////////////
         // start flower animations
         for (int i = 0; i < flowerAnimations.size(); i++) {
-            flowerAnimations.get(i).setStartDelay(2500);
+            flowerAnimations.get(i).setStartDelay(1000);
             flowerAnimations.get(i).start();
         }
+
+        ObjectAnimator beeAnimation = ObjectAnimator.ofFloat(drawView, DrawView.X, DrawView.Y, beePath);
+        beeAnimation.setStartDelay(4000);
+        beeAnimation.setDuration(3000);
+        beeAnimation.start();
     }
 }
