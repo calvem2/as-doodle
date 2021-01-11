@@ -11,7 +11,6 @@ import cse340.doodle.DimHelp;
 // Documentation used
 // Canvas/drawOval: https://developer.android.com/reference/android/graphics/Canvas#drawOval(float,%20float,%20float,%20float,%20android.graphics.Paint)
 // Canvas/rotate: https://developer.android.com/reference/android/graphics/Canvas#rotate(float,%20float,%20float)
-// drawing rotated shapes: https://stackoverflow.com/questions/19837489/android-how-to-rotate-rect-object/19837787
 // pointF: https://developer.android.com/reference/android/graphics/PointF
 // rotating points: https://math.stackexchange.com/questions/270194/how-to-find-the-vertices-angle-after-rotation#:~:text=When%20a%20point%20(x%2Cy,%2Bycos(%CE%B8).
 
@@ -50,10 +49,10 @@ public class MyView extends DrawView {
         float bottom = (float) (y + height / 2.0);
 
         // rotate rectangle and find smallest bounding box
-        PointF topLeft = rotatePoint(x, y, angle, left, top);
-        PointF bottomRight = rotatePoint(x, y, angle, right, bottom);
-        PointF topRight = rotatePoint(x, y, angle, right, top);
-        PointF bottomLeft = rotatePoint(x, y, angle, left, bottom);
+        PointF topLeft = rotatePoint(x, bottom, angle, left, top);
+        PointF bottomRight = rotatePoint(x, bottom, angle, right, bottom);
+        PointF topRight = rotatePoint(x, bottom, angle, right, top);
+        PointF bottomLeft = rotatePoint(x, bottom, angle, left, bottom);
         left = Math.min(Math.min(topLeft.x, topRight.x), Math.min(bottomLeft.x, bottomRight.x));
         right = Math.max(Math.max(topLeft.x, topRight.x), Math.max(bottomLeft.x, bottomRight.x));
         top = Math.min(Math.min(topLeft.y, topRight.y), Math.min(bottomLeft.y, bottomRight.y));
