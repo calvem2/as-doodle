@@ -51,8 +51,8 @@ public class LineView extends DrawView {
          * You should be able to do this with max and min.
          */
         float left, top;
-        left = parentStartX == parentEndX ? parentStartX - (float) (getThickness() / 2.0) : Math.min(parentStartX, parentEndX);
-        top = parentStartY == parentEndY ? parentStartY - (float) (getThickness() / 2.0) : Math.min(parentStartY, parentEndY);
+        left = parentStartX == parentEndX ? parentStartX - getThickness() / 2 : Math.min(parentStartX, parentEndX);
+        top = parentStartY == parentEndY ? parentStartY - getThickness() / 2 : Math.min(parentStartY, parentEndY);
 
         /*
          * TODO calculate the width and height of the line's bounding box
@@ -124,8 +124,8 @@ public class LineView extends DrawView {
         float width, height, wCenter, hCenter;
         width = this.getWidth();
         height = this.getHeight();
-        wCenter = (float) (width / 2.0);    // center of box width
-        hCenter = (float) (height / 2.0);   // center of height width
+        wCenter = width / 2;    // center of box width
+        hCenter = height / 2;   // center of height width
         if (mStart == Quadrant.VERTICALTOPBOTTOM) {
             canvas.drawLine(wCenter, 0, wCenter, height, getBrush());
         } else if (mStart == Quadrant.VERTICALBOTTOMTOP) {

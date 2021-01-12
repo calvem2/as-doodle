@@ -47,10 +47,10 @@ public class MyView extends DrawView {
         this.angle = angle;
 
         // find bounding rectangle of pre-rotated oval
-        float left = (float) (cx - width / 2.0);
-        float top = (float) (cy - height / 2.0);
-        float right = (float) (cx + width / 2.0);
-        float bottom = (float) (cy + height / 2.0);
+        float left = cx - width / 2;
+        float top = cy - height / 2;
+        float right = cx + width / 2;
+        float bottom = cy + height / 2;
 
         // rotate rectangle and find smallest bounding box
         PointF topLeft = rotatePoint(x, y, angle, left, top);
@@ -64,7 +64,7 @@ public class MyView extends DrawView {
 
         // adjust to account for thickness for ovals that are vertical or horizontal
         if (angle % 90 == 0) {
-            float halfStroke = (float) (DimHelp.PX2DP(getThickness(), context) / 2.0);
+            float halfStroke = DimHelp.PX2DP(getThickness(), context) / 2;
             left -= halfStroke;
             top -= halfStroke;
             bottom += halfStroke;
@@ -82,12 +82,12 @@ public class MyView extends DrawView {
      */
     protected void onDraw(Canvas canvas) {
         // find rectangle bounding rectangle for pre-rotated oval
-        float cx = (float) (getWidth() / 2.0);
-        float cy = (float) (getHeight() / 2.0);
-        float top = cy - (float) (oHeight / 2.0);
-        float left = cx - (float) (oWidth / 2.0);
-        float right = cx + (float) (oWidth / 2.0);
-        float bottom = cy + (float) (oHeight / 2.0);
+        float cx = getWidth() / 2;
+        float cy = getHeight() / 2;
+        float top = cy - oHeight / 2;
+        float left = cx - oWidth / 2;
+        float right = cx + oWidth / 2;
+        float bottom = cy + oHeight / 2;
 
         // rotate canvas and draw using bounding rectangle
         canvas.rotate(angle, cx, cy);
