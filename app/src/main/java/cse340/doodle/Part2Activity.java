@@ -7,9 +7,7 @@ import android.graphics.Path;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextPaint;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,7 +106,7 @@ public class Part2Activity extends AbstractMainActivity {
         sun.add(0, circleView);
 
         ///////////////////////////////////   BACKGROUND    ////////////////////////////////////////
-        brush.setStrokeWidth(DimHelp.DP2PX(PHONE_DIMS.x, this));
+        brush.setStrokeWidth(widthPX);
         brush.setColor(Color.LTGRAY);
         LineView fog = new LineView(this, PHONE_DIMS.x / 2, 0,
                 PHONE_DIMS.x / 2, PHONE_DIMS.y, brush);
@@ -138,7 +136,7 @@ public class Part2Activity extends AbstractMainActivity {
         float cx = PHONE_DIMS.x / 2;                                    // center of ovals
         float cy = (PHONE_DIMS.y - stemOffset / 2 - petalHeight / 2)
                 + translationOffset;
-        float rotationY = cy + petalHeight / 2;             // y value to rotate around
+        float rotationY = cy + petalHeight / 2;                         // y value to rotate around
         List<DrawView> flowerParts = new ArrayList<>();
 
         //////// FLOWER ONE
@@ -184,7 +182,7 @@ public class Part2Activity extends AbstractMainActivity {
         flowerParts.add(circleView);
 
         // Flower 1 animations
-        List<ObjectAnimator> flowerAnimations = new ArrayList();
+        List<ObjectAnimator> flowerAnimations = new ArrayList<>();
         for (int i = 0; i < flowerParts.size(); i++) {
             float start = flowerParts.get(i).getY();
             float end = start - DimHelp.DP2PX(translationOffset, this);

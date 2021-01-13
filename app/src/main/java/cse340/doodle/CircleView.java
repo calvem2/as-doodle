@@ -33,7 +33,7 @@ public class CircleView extends DrawView {
          * to properly set up the view
          */
         float halfStroke = getThickness() / 2;
-        initFromParentCoordsPX(DimHelp.DP2PX(parentX - radius, context)  - halfStroke,
+        initFromParentCoordsPX(DimHelp.DP2PX(parentX - radius, context) - halfStroke,
                 DimHelp.DP2PX(parentY - radius, context) - halfStroke,
                 DimHelp.DP2PX(radius + radius, context) + getThickness(),
                 DimHelp.DP2PX(radius + radius, context) + getThickness());
