@@ -136,14 +136,17 @@ public class Part2Activity extends AbstractMainActivity {
         float cx = PHONE_DIMS.x / 2;                                    // center of ovals
         float cy = (PHONE_DIMS.y - stemOffset / 2 - petalHeight / 2)
                 + translationOffset;
-        float rotationY = cy + petalHeight / 2;                         // y value to rotate around
+        float rotationY = cy + petalHeight / 2;                         // y value to rotate oval around
+        float stemX = PHONE_DIMS.x / 2;                                 // x pos for stem
+        float stemStartY = PHONE_DIMS.y - 50 + translationOffset;       // start y pos for stem
+        float stemEndY = PHONE_DIMS.y - stemOffset + translationOffset; // end y pos for stem
+
         List<DrawView> flowerParts = new ArrayList<>();
 
         //////// FLOWER ONE
         // stem 1
         flowers.setColor(green);
-        lineView = new LineView(this, PHONE_DIMS.x / 2, PHONE_DIMS.y - 50 + translationOffset,
-                PHONE_DIMS.x / 2, PHONE_DIMS.y - stemOffset + translationOffset, flowers);
+        lineView = new LineView(this, stemX, stemStartY, stemX, stemEndY, flowers);
         doodleView.addView(lineView);
         flowerParts.add(lineView);
 
@@ -152,6 +155,7 @@ public class Part2Activity extends AbstractMainActivity {
         MyView oval = new MyView(this, cx, cy, petalWidth, petalHeight, 35, cx, rotationY, flowers);
         doodleView.addView(oval);
         flowerParts.add(oval);
+
         cy = (float) ((PHONE_DIMS.y - stemOffset / 1.5 - petalHeight / 2) + translationOffset);
         rotationY = cy + petalHeight / 2;
         oval = new MyView(this, cx, cy, petalWidth, petalHeight, -35,  cx, rotationY, flowers);
@@ -162,18 +166,10 @@ public class Part2Activity extends AbstractMainActivity {
         cy = (PHONE_DIMS.y - stemOffset - petalHeight / 2) + translationOffset;
         rotationY = cy + petalHeight / 2;
         flowers.setColor(Color.rgb(232, 194, 181));
-        for (int i = 0; i < 8; i++) {
-            oval = new MyView(this, cx, cy, petalWidth, petalHeight, 45 * i, cx, rotationY, flowers);
-            doodleView.addView(oval);
-            flowerParts.add(oval);
-        }
+        drawPetals(doodleView, flowerParts, cx, cy, petalWidth, petalHeight, rotationY, 0, flowers);
 
         flowers.setColor(Color.rgb(230, 145, 135));
-        for (int i = 0; i < 8; i++) {
-            oval = new MyView(this, cx, cy, petalWidth, petalHeight, 45 * i + 23, cx, rotationY, flowers);
-            doodleView.addView(oval);
-            flowerParts.add(oval);
-        }
+        drawPetals(doodleView, flowerParts, cx, cy, petalWidth, petalHeight, rotationY, 23, flowers);
 
         // center 1
         flowers.setColor(Color.WHITE);
@@ -181,30 +177,21 @@ public class Part2Activity extends AbstractMainActivity {
         doodleView.addView(circleView);
         flowerParts.add(circleView);
 
-        // Flower 1 animations
-        List<ObjectAnimator> flowerAnimations = new ArrayList<>();
-        for (int i = 0; i < flowerParts.size(); i++) {
-            float start = flowerParts.get(i).getY();
-            float end = start - DimHelp.DP2PX(translationOffset, this);
-            flowerAnimations.add(ObjectAnimator.ofFloat(flowerParts.get(i), "translationY", start, end));
-            flowerAnimations.get(i).setDuration(4000);
-        }
-
         //////// FLOWER TWO
-        // stem 2
-        stemOffset = 200;
-        flowerParts.clear();
-        flowers.setColor(green);
-        lineView = new LineView(this, PHONE_DIMS.x / 4, PHONE_DIMS.y - 50 + translationOffset,
-                PHONE_DIMS.x / 4, PHONE_DIMS.y - stemOffset + translationOffset, flowers);
-        doodleView.addView(lineView);
-        flowerParts.add(lineView);
-
         petalHeight = 40;
         petalWidth = 15;
         cx = PHONE_DIMS.x / 4;
         cy = (PHONE_DIMS.y - stemOffset / 2 - petalHeight / 2) + translationOffset;
         rotationY = cy + petalHeight / 2;
+
+        // stem 2
+        stemOffset = 200;
+        flowers.setColor(green);
+        stemX = PHONE_DIMS.x / 4;
+        stemEndY = PHONE_DIMS.y - stemOffset + translationOffset;
+        lineView = new LineView(this, stemX, stemStartY, stemX, stemEndY, flowers);
+        doodleView.addView(lineView);
+        flowerParts.add(lineView);
 
         // leaves 2
         oval = new MyView(this, cx, cy, petalWidth, petalHeight, -35, cx, rotationY, flowers);
@@ -221,18 +208,10 @@ public class Part2Activity extends AbstractMainActivity {
         cy = (PHONE_DIMS.y - stemOffset - petalHeight / 2) + translationOffset;
         rotationY = cy + petalHeight / 2;
         flowers.setColor(Color.rgb(129, 156, 200));
-        for (int i = 0; i < 8; i++) {
-            oval = new MyView(this, cx, cy, petalWidth, petalHeight, 45 * i + 23, cx, rotationY, flowers);
-            doodleView.addView(oval);
-            flowerParts.add(oval);
-        }
+        drawPetals(doodleView, flowerParts, cx, cy, petalWidth, petalHeight, rotationY, 23, flowers);
 
         flowers.setColor(Color.rgb(139, 208, 250));
-        for (int i = 0; i < 8; i++) {
-            oval = new MyView(this, cx, cy, petalWidth, petalHeight, 45 * i, cx, rotationY, flowers);
-            doodleView.addView(oval);
-            flowerParts.add(oval);
-        }
+        drawPetals(doodleView, flowerParts, cx, cy, petalWidth, petalHeight, rotationY, 0, flowers);
 
         // center 2
         flowers.setColor(Color.rgb(241, 207, 140));
@@ -240,29 +219,21 @@ public class Part2Activity extends AbstractMainActivity {
         doodleView.addView(circleView);
         flowerParts.add(circleView);
 
-        // Flower 2 animations
-        for (int i = 0; i < flowerParts.size(); i++) {
-            float start = flowerParts.get(i).getY();
-            float end = start - DimHelp.DP2PX(translationOffset, this);
-            flowerAnimations.add(ObjectAnimator.ofFloat(flowerParts.get(i), "translationY", start, end));
-            flowerAnimations.get(flowerAnimations.size() - 1).setDuration(4000);
-        }
-
         //////// FLOWER THREE
-        // stem 3
-        stemOffset = 225;
-        flowers.setColor(green);
-        flowerParts.clear();
-        lineView = new LineView(this, PHONE_DIMS.x * 3 / 4, PHONE_DIMS.y - 50 + translationOffset,
-                PHONE_DIMS.x * 3 / 4, PHONE_DIMS.y - stemOffset + translationOffset, flowers);
-        doodleView.addView(lineView);
-        flowerParts.add(lineView);
-
         petalHeight = 45;
         petalWidth = 15;
         cx = PHONE_DIMS.x * 3 / 4;
         cy = (PHONE_DIMS.y - stemOffset / 2 - petalHeight / 2) + translationOffset;
         rotationY = cy + petalHeight / 2;
+
+        // stem 3
+        stemOffset = 225;
+        flowers.setColor(green);
+        stemX = PHONE_DIMS.x * 3 / 4;
+        stemEndY = PHONE_DIMS.y - stemOffset + translationOffset;
+        lineView = new LineView(this, stemX, stemStartY, stemX, stemEndY, flowers);
+        doodleView.addView(lineView);
+        flowerParts.add(lineView);
 
         // leaves 3
         oval = new MyView(this, cx, cy, petalWidth, petalHeight, -35, cx, rotationY, flowers);
@@ -279,33 +250,16 @@ public class Part2Activity extends AbstractMainActivity {
         cy = (PHONE_DIMS.y - stemOffset - petalHeight / 2) + translationOffset;
         rotationY = cy + petalHeight / 2;
         flowers.setColor(Color.rgb(192, 174, 196));
-        for (int i = 0; i < 8; i++) {
-            oval = new MyView(this, cx, cy, petalWidth, petalHeight, 45 * i + 23, cx, rotationY, flowers);
-            doodleView.addView(oval);
-            flowerParts.add(oval);
-        }
+        drawPetals(doodleView, flowerParts, cx, cy, petalWidth, petalHeight, rotationY, 23, flowers);
 
         flowers.setColor(Color.rgb(178, 142, 212));
-        for (int i = 0; i < 8; i++) {
-            oval = new MyView(this, cx, cy, petalWidth, petalHeight, 45 * i, cx, rotationY, flowers);
-            doodleView.addView(oval);
-            flowerParts.add(oval);
-        }
+        drawPetals(doodleView, flowerParts, cx, cy, petalWidth, petalHeight, rotationY, 0, flowers);
 
         // center 3
         flowers.setColor(Color.rgb(235, 235, 174));
         circleView = new CircleView(this, cx, PHONE_DIMS.y - stemOffset + translationOffset, 5, flowers);
         doodleView.addView(circleView);
         flowerParts.add(circleView);
-
-
-        // Flower 3 animations
-        for (int i = 0; i < flowerParts.size(); i++) {
-            float start = flowerParts.get(i).getY();
-            float end = start - DimHelp.DP2PX(translationOffset, this);
-            flowerAnimations.add(ObjectAnimator.ofFloat(flowerParts.get(i), "translationY", start, end));
-            flowerAnimations.get(flowerAnimations.size() - 1).setDuration(4000);
-        }
 
         /////////////////////////////////// BOTTOM DIRT ////////////////////////////////////////////
         lineView = new LineView(this, 0, PHONE_DIMS.y - 50,
@@ -338,8 +292,13 @@ public class Part2Activity extends AbstractMainActivity {
         fadeOut.setStartDelay(1000);
         fadeOut.start();
 
-        // start flower animations
-        for (int i = 0; i < flowerAnimations.size(); i++) {
+        // flower animations
+        List<ObjectAnimator> flowerAnimations = new ArrayList<>();
+        for (int i = 0; i < flowerParts.size(); i++) {
+            float start = flowerParts.get(i).getY();
+            float end = start - DimHelp.DP2PX(translationOffset, this);
+            flowerAnimations.add(ObjectAnimator.ofFloat(flowerParts.get(i), "translationY", start, end));
+            flowerAnimations.get(i).setDuration(4000);
             flowerAnimations.get(i).setStartDelay(1000);
             flowerAnimations.get(i).start();
         }
@@ -355,5 +314,17 @@ public class Part2Activity extends AbstractMainActivity {
         textAnimation.setStartDelay(7000);
         textAnimation.setDuration(100);
         textAnimation.start();
+    }
+
+    // Helper method from drawing petals.
+    // Draws eight petals using MyViews rotated around (cx, y) using the given angle offset from 45 degrees
+    // Adds petals drawn to given list
+    private void drawPetals(FrameLayout doodleView, List<DrawView> flowerParts, float cx, float cy,
+                            float width, float height, float y, float angleOffset, Paint brush) {
+        for (int i = 0; i < 8; i++) {
+            MyView oval = new MyView(this, cx, cy, width, height, 45 * i + angleOffset, cx, y, brush);
+            doodleView.addView(oval);
+            flowerParts.add(oval);
+        }
     }
 }
